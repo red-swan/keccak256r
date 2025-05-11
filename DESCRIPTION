@@ -1,18 +1,27 @@
 Package: keccak256r
 Type: Package
-Title: What the Package Does (Title Case)
+Title: The Keccak256 hash algorithm for R
 Version: 0.1.0
 Authors@R: c(
     person(
-      "Jane", "Doe",
-      email = "jane@example.com",
+      "Red", "Swan",
+      email = "redswan@outlook.com",
       role = c("aut", "cre")
     )
   )
 Description: More about what it does (maybe more than one line).
     Continuation lines should be indented.
-License: What license is it under?
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Imports: Rcpp (>= 1.0.14)
+Imports: 
+    magrittr,
+    purrr,
+    Rcpp (>= 1.0.14),
+    stringr,
+    wkb
 LinkingTo: Rcpp
+RoxygenNote: 7.3.2
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

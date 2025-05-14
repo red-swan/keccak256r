@@ -33,10 +33,10 @@ keccak256 <- function(inputs, hexConvert = TRUE) {
         purrr::map_chr(inputs, ~ .Call('_keccak256r_keccak256_string', PACKAGE = 'keccak256r', .x))
       }
     # raw input
-    } else if(is.raw(input)){
-        .Call('_keccak256r_keccak256_raw', PACKAGE = 'keccak256r', input)
+    } else if(is.raw(inputs)){
+        .Call('_keccak256r_keccak256_raw', PACKAGE = 'keccak256r', inputs)
     } else {
-       stop("Input must be raw or string: ", input)
+       stop("Input must be raw or string: ", inputs)
     }
 }
 
@@ -77,6 +77,9 @@ keccak256_file <- function(filepath) {
 keccak256_integer <-function(integers, intBytes = 32){
   if(!is.numeric(integers)){
     stop("keccak256_integer input must be numeric: ", integers)
+  }
+  if(intBytes < 1){
+    stop("intBytes must use at least one byte")
   }
   purrr::map_chr(integers, ~ doubleIntToRaw(.x, intBytes) %>%
                              .Call('_keccak256r_keccak256_raw', PACKAGE = 'keccak256r', .))

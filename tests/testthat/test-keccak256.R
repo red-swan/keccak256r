@@ -1,8 +1,16 @@
-test_that("keccak256 works correctly", {
+
+# strings ----------------------------------------------------------------------
+
+test_that("strings", {
   # Test vector from Ethereum
   expect_equal(
     keccak256(""),
     "c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
+  )
+
+  expect_equal(
+    keccak256("0x",hexConvert = TRUE),
+    keccak256("")
   )
 
   expect_equal(
@@ -50,13 +58,48 @@ test_that("keccak256 works correctly", {
     "1ff3e907b5e1affa131303ddefc1ce21b86400030cdcaa742e55f57e066614f4"
   )
 
+  expect_equal(
+    keccak256("0x1234567890abcdef", hexConvert = TRUE),
+    keccak256(wkb::hex2raw("1234567890abcdef"))
+  )
+
 })
 
+
+# raw --------------------------------------------------------------------------
 test_that("keccak256_raw works correctly", {
   expect_equal(
     keccak256_raw(charToRaw("hello world")),
     "47173285a8d7341e5e972fc677286384f802f8ef42a5ec5f03bbfa254cb01fad"
   )
 })
+
+
+# integer ----------------------------------------------------------------------
+
+test_that("integers work correctly",{
+  expect_equal(keccak256_integer(0, 32),
+               keccak256(raw(32)))
+
+  expect_equal(keccak256_integer(0,1),
+               keccak256(raw(1)))
+
+  expect_error(keccak256_integer(1337,0))
+
+  expect_equal(keccak256_integer(c(0:9)),
+               keccak256(str_c("0x", str_dup("0",63), 0:9)))
+
+})
+
+
+# other inputs -----------------------------------------------------------------
+
+test_that("Bad inputs error", {
+  expect_error(keccak256(list(raw(32),
+                              raw(32))))
+})
+
+
+
 
 
